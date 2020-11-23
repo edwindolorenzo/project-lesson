@@ -1,3 +1,4 @@
+const { shell } = require('electron')
 const fs = require('fs')
 const { networkInterfaces } = require('os')
 
@@ -78,6 +79,23 @@ exports.changeSelection = direction =>{
     currentItem.node.classList.remove('selected')
     currentItem.node.nextElementSibling.classList.add('selected')
   }
+
+}
+
+// Open selected item in native browser
+
+exports.openNative = () => {
+  // only if we have items (in case of menu open)
+  if( !this.storage.length) return
+
+  let selectedItem = this.getSelectedItem()
+
+  // get URL
+  let contentURL = selectedItem.node.dataset.url
+
+  // Open in user's default system browser
+
+  shell.openExternal(contentURL)
 
 }
 

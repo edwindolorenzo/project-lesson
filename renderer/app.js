@@ -13,6 +13,33 @@ let showModal = document.getElementById('show-modal')
     itemUrl = document.getElementById('url')
     search = document.getElementById('search')
 
+    // Open modal from menu
+    ipcRenderer.on( 'menu-show-modal', () => {
+      showModal.click()
+    })
+
+    // Open selected item from menu
+    ipcRenderer.on('menu-open-item', () =>{
+      items.open()
+    })
+
+    // Delete selected item from menu
+    ipcRenderer.on('menu-delete-item', () =>{
+      // BUG AMBIL PALING AWAL TRUS
+      let selectedItem = items.getSelectedItem()
+      items.delete(selectedItem.index)
+    })
+
+    // Open item in native browser from menu
+    ipcRenderer.on('menu-open-item-native', () =>{
+      items.openNative()
+    })
+    
+
+    ipcRenderer.on('menu-focus-search', () =>{
+      search.focus()
+    })
+
     // Filter items search
     search.addEventListener('keyup', e => {
       // Loop items
